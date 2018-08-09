@@ -13,6 +13,7 @@ Jsoncpp: https://github.com/open-source-parsers/jsoncpp
 
 **_Why use this lib over official API?_**
     **C++ code with the official API:**
+    
     ```
     namespace
     {
@@ -76,47 +77,13 @@ Jsoncpp: https://github.com/open-source-parsers/jsoncpp
         {
         std::cout << "Successfully parsed JSON data" << std::endl;
         //std::cout << "\nJSON data received:" << std::endl;
-        
-        int i = 0;
-        //Step through JSON file until the end is reached
-        while(i < jsonData.size()){
-        //Parse the JSON data into the struct
-        parsedData.open = jsonData[i]["open"].asDouble();
-        parsedData.high = jsonData[i]["high"].asDouble();
-        parsedData.low = jsonData[i]["low"].asDouble();
-        parsedData.close = jsonData[i]["close"].asDouble();
-        parsedData.volume = jsonData[i]["volume"].asInt64();
-        parsedData.unadjustedVolume = jsonData[i]["unadjustedVolume"].asInt64();
-        parsedData.change = jsonData[i]["change"].asDouble();
-        parsedData.changePercent = jsonData[i]["changePercent"].asDouble();
-        parsedData.vmap = jsonData[i]["vmap"].asDouble();
-        parsedData.changeOverTime = jsonData[i]["changeOverTime"].asDouble();
-        parsedData.date = jsonData[i]["date"].asString();
-        parsedData.label = jsonData[i]["label"].asString();
-        
-        //Push the Struct into the formattedHistoricalData vector
-        formattedHistoricalData.push_back(parsedData);
-        i++;
-        }
-        }
-        else
-        {
-        std::cout << "Could not parse HTTP data as JSON" << std::endl;
-        std::cout << "HTTP data was:\n" << *httpData.get() << std::endl;
-        exit(1);
-        }
-        }
-        else
-        {
-        std::cout << "Couldn't GET from " << url << " - exiting" << std::endl;
-        exit(1);
-        }
     }
     ```
     **C++ code with IEX_CPP_API:**
-        ```
-            IEX::stocks::chart("aapl");
-        ```
+    
+    ```
+      IEX::stocks::chart("aapl");
+    ```
 
 **NOTE:**
 
