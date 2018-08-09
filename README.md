@@ -29,7 +29,7 @@ Jsoncpp: https://github.com/open-source-parsers/jsoncpp
         }
     }
 
-    void acquireJSONofAAPLchart{
+    Json::Value acquireJSONofAAPLchart{
         const std::string url("https://api.iextrading.com/1.0/stock/aapl/chart");
         
         CURL* curl = curl_easy_init();
@@ -68,15 +68,14 @@ Jsoncpp: https://github.com/open-source-parsers/jsoncpp
         {
         std::cout << "\nGot successful response from " << url << std::endl;
         
-        // Response looks good - done using Curl now.  Try to parse the results
-        // and print them out.
-        Json::Value jsonData;
+        // Response looks good - done using Curl now.  
         Json::Reader jsonReader;
+        Json::Value jsonData;
+        jsonReader.parse(*httpData, jsonData); //TODO error handle
         
-        if (jsonReader.parse(*httpData, jsonData))
-        {
-        std::cout << "Successfully parsed JSON data" << std::endl;
-        //std::cout << "\nJSON data received:" << std::endl;
+        return jsonValue;
+        
+        
     }
    
    **C++ code with IEX_CPP_API:**
