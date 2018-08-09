@@ -30,7 +30,7 @@ Jsoncpp: https://github.com/open-source-parsers/jsoncpp
     }
 
     void acquireJSONofAAPLchart{
-            const std::string url("https://api.iextrading.com/1.0/stock/aapl/chart");
+        const std::string url("https://api.iextrading.com/1.0/stock/aapl/chart");
         
         CURL* curl = curl_easy_init();
         
