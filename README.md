@@ -157,7 +157,7 @@ Formal docs to be added when this project gets closer to done, however some basi
  - ~~Peers~~
  - ~~Previous~~
  - ~~Price~~
- - ~~ Quote~~
+ - ~~Quote~~
  - ~~Relevant~~
  - ~~Splits~~
  - ~~Time Series~~
