@@ -40,11 +40,11 @@ Formal docs to be added when this project gets closer to done, however some basi
  - ~~Largest Trades~~
  - ~~List~~
  - ~~Logo~~
- - News
- - OHLC
- - Open/Close
- - Peers
- - Previous
+ - ~~News~~
+ - ~~OHLC~~
+ - ~~Open/Close~~ (OHLC function per offical API docs)
+ - ~~Peers~~
+ - ~~Previous~~
  - Price
  - Quote
  - Relevant
