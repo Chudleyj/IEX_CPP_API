@@ -40,6 +40,15 @@ int main(){
   test =  IEX::stocks::peers("aapl");
   test =  IEX::stocks::previous("aapl");
   test =  IEX::stocks::previous("market");
+  test =  IEX::stocks::price("aapl");
+  test =  IEX::stocks::quote("aapl");
+  test =  IEX::stocks::quote("aapl", true);
+  test =  IEX::stocks::relevant("aapl");
+  test =  IEX::stocks::sectorPerformance();
+  test =  IEX::stocks::relevant("aapl");
+  test =  IEX::stocks::splits("aapl","5y");
+  test =  IEX::stocks::timeSeries("aapl");
+  test =  IEX::stocks::VolumeByVenue("aapl");
   std:: cout << test << std::endl << "DONE";
   //curl_global_cleanup(); //TODO auto execute somewhere?
 }
@@ -584,6 +593,268 @@ Json::Value IEX::stocks::previous(std::string symbol){
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/previous";
+  IEX::sendGetRequest(jsonData, url);
+  return jsonData;
+}
+
+// GET /stock/{symbol}/price
+Json::Value IEX::stocks::price(std::string symbol){
+  Json::Value jsonData;
+  std::string url(IEX_ENDPOINT);
+  url += "/stock/"+symbol+"/price";
+  IEX::sendGetRequest(jsonData, url);
+  return jsonData;
+}
+
+/*
+GET /stock/{symbol}/quote
+{
+  "symbol": "AAPL",
+  "companyName": "Apple Inc.",
+  "primaryExchange": "Nasdaq Global Select",
+  "sector": "Technology",
+  "calculationPrice": "tops",
+  "open": 154,
+  "openTime": 1506605400394,
+  "close": 153.28,
+  "closeTime": 1506605400394,
+  "high": 154.80,
+  "low": 153.25,
+  "latestPrice": 158.73,
+  "latestSource": "Previous close",
+  "latestTime": "September 19, 2017",
+  "latestUpdate": 1505779200000,
+  "latestVolume": 20567140,
+  "iexRealtimePrice": 158.71,
+  "iexRealtimeSize": 100,
+  "iexLastUpdated": 1505851198059,
+  "delayedPrice": 158.71,
+  "delayedPriceTime": 1505854782437,
+  "extendedPrice": 159.21,
+  "extendedChange": -1.68,
+  "extendedChangePercent": -0.0125,
+  "extendedPriceTime": 1527082200361,
+  "previousClose": 158.73,
+  "change": -1.67,
+  "changePercent": -0.01158,
+  "iexMarketPercent": 0.00948,
+  "iexVolume": 82451,
+  "avgTotalVolume": 29623234,
+  "iexBidPrice": 153.01,
+  "iexBidSize": 100,
+  "iexAskPrice": 158.66,
+  "iexAskSize": 100,
+  "marketCap": 751627174400,
+  "peRatio": 16.86,
+  "week52High": 159.65,
+  "week52Low": 93.63,
+  "ytdChange": 0.3665,
+}
+OPTIONAL VALUE TO DISPLAY PERCENT, SEE OFFICAL API */
+Json::Value IEX::stocks::quote(std::string symbol, bool displayPercent){
+  Json::Value jsonData;
+  std::string url(IEX_ENDPOINT);
+
+  displayPercent ? url += "/stock/"+symbol+"/quote?displayPercent=true" : url += "/stock/"+symbol+"/quote";
+
+
+
+  IEX::sendGetRequest(jsonData, url);
+  return jsonData;
+}
+
+/*
+GET /stock/{symbol}/relevant
+{
+  "peers": true,
+  "symbols": [
+      "MSFT",
+      "NOK",
+      "IBM",
+      "BBRY",
+      "HPQ",
+      "GOOGL",
+      "XLK"
+  ]
+}*/
+Json::Value IEX::stocks::relevant(std::string symbol){
+  Json::Value jsonData;
+  std::string url(IEX_ENDPOINT);
+  url += "/stock/"+symbol+"/relevant";
+  IEX::sendGetRequest(jsonData, url);
+  return jsonData;
+}
+
+/*
+GET /stock/market/sector-performance
+[
+  {
+    "type": "sector",
+    "name": "Industrials",
+    "performance": 0.00711,
+    "lastUpdated": 1533672000437
+  },
+  ...
+]*/
+Json::Value IEX::stocks::sectorPerformance(){
+  Json::Value jsonData;
+  std::string url(IEX_ENDPOINT);
+  url += "/stock/market/sector-performance";
+  IEX::sendGetRequest(jsonData, url);
+  return jsonData;
+}
+
+/*
+GET /stock/{symbol}/splits/{range}
+[
+    {
+        "exDate": "2017-08-10",
+        "declaredDate": "2017-08-01",
+        "recordDate": "2017-08-14",
+        "paymentDate": "2017-08-17",
+        "ratio": 0.142857,
+        "toFactor": 7,
+        "forFactor": 1
+    } // , { ... }
+]*/
+Json::Value IEX::stocks::splits(std::string symbol, std::string range){
+  Json::Value jsonData;
+  std::string url(IEX_ENDPOINT);
+
+  if(range == "5y" || range == "2y" || range == "1y" || range == "ytd" || range == "6m" || range == "3m" || range == "1m" || range == "1d"){
+    url += "/stock/"+symbol+"/splits/"+range;
+    IEX::sendGetRequest(jsonData, url);
+  }
+  else{
+    std::cout << std::endl << "Incorrect 'range' input in function chartRange. Exiting." << std::endl;
+    exit(1);
+  }
+
+  IEX::sendGetRequest(jsonData, url);
+  return jsonData;
+}
+
+//GET /stock/{symbol}/time-series
+Json::Value IEX::stocks::timeSeries(std::string symbol){
+  Json::Value jsonData;
+  std::string url(IEX_ENDPOINT);
+  url += "/stock/"+symbol+"/time-series";
+  IEX::sendGetRequest(jsonData, url);
+  return jsonData;
+}
+
+/*
+GET /stock/{symbol}/delayed-quote
+[
+  {
+    "volume": 0,
+    "venue": "XNYS",
+    "venueName": "NYSE",
+    "marketPercent": 0,
+    "avgMarketPercent": 0,
+    "date": "N/A"
+  },
+  {
+    "volume": 21655,
+    "venue": "XASE",
+    "venueName": "NYSE American",
+    "date": "2017-09-19",
+    "marketPercent": 0.0010540470343969304,
+    "avgMarketPercent": 0.0021596513337820305
+  },
+  {
+    "volume": 164676,
+    "venue": "EDGA",
+    "venueName": "EDGA",
+    "date": "2017-09-19",
+    "marketPercent": 0.008015527565751508,
+    "avgMarketPercent": 0.007070162857518009
+  },
+  {
+    "volume": 253600,
+    "venue": "XCHI",
+    "venueName": "CHX",
+    "date": "2017-09-19",
+    "marketPercent": 0.01234386182974193,
+    "avgMarketPercent": 0.019123040706393757
+  },
+  {
+    "volume": 289791,
+    "venue": "IEXG",
+    "venueName": "IEX",
+    "date": "2017-09-19",
+    "marketPercent": 0.014105441890783691,
+    "avgMarketPercent": 0.01080806673166022
+  },
+  {
+    "volume": 311580,
+    "venue": "XPHL",
+    "venueName": "NASDAQ PSX",
+    "date": "2017-09-19",
+    "marketPercent": 0.0151660113127405,
+    "avgMarketPercent": 0.010991446666811688
+  },
+  {
+    "volume": 479457,
+    "venue": "XBOS",
+    "venueName": "NASDAQ BX",
+    "date": "2017-09-19",
+    "marketPercent": 0.02333734606191868,
+    "avgMarketPercent": 0.016846380315025656
+  },
+  {
+    "volume": 501842,
+    "venue": "BATY",
+    "venueName": "BATS BYX",
+    "date": "2017-09-19",
+    "marketPercent": 0.024426925506156744,
+    "avgMarketPercent": 0.020187355701732888
+  },
+  {
+    "volume": 1242757,
+    "venue": "BATS",
+    "venueName": "BATS BZX",
+    "date": "2017-09-19",
+    "marketPercent": 0.06049061788621685,
+    "avgMarketPercent": 0.060993172098918684
+  },
+  {
+    "volume": 1865376,
+    "venue": "ARCX",
+    "venueName": "NYSE Arca",
+    "date": "2017-09-19",
+    "marketPercent": 0.09079630758878819,
+    "avgMarketPercent": 0.07692002795005641
+  },
+  {
+    "volume": 1951116,
+    "venue": "EDGX",
+    "venueName": "EDGX",
+    "date": "2017-09-19",
+    "marketPercent": 0.09496966213643043,
+    "avgMarketPercent": 0.09297590135910822
+  },
+  {
+    "volume": 5882545,
+    "venue": "XNGS",
+    "venueName": "NASDAQ",
+    "date": "2017-09-19",
+    "marketPercent": 0.2863301367793346,
+    "avgMarketPercent": 0.27436519408402665
+  },
+  {
+    "volume": 7580229,
+    "venue": "TRF",
+    "venueName": "Off Exchange",
+    "date": "2017-09-19",
+    "marketPercent": 0.36896411440773996,
+    "avgMarketPercent": 0.40847022134435956
+  }
+]*/
+Json::Value IEX::stocks::VolumeByVenue(std::string symbol){
+  Json::Value jsonData;
+  std::string url(IEX_ENDPOINT);
+  url += "/stock/"+symbol+"/volume-by-venue";
   IEX::sendGetRequest(jsonData, url);
   return jsonData;
 }

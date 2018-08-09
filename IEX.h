@@ -31,6 +31,14 @@ namespace IEX{
     Json::Value OHLC(std::string symbol);
     Json::Value peers(std::string symbol);
     Json::Value previous(std::string symbol);
+    Json::Value price(std::string symbol);
+    Json::Value quote(std::string symbol, bool displayPercent = false);
+    Json::Value relevant(std::string symbol);
+    Json::Value sectorPerformance();
+    Json::Value splits(std::string symbol, std::string range);
+    Json::Value relevant(std::string symbol);
+    Json::Value timeSeries(std::string symbol);
+    Json::Value VolumeByVenue(std::string symbol);
   }
 }
 

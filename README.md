@@ -45,12 +45,12 @@ Formal docs to be added when this project gets closer to done, however some basi
  - ~~Open/Close~~ (OHLC function per offical API docs)
  - ~~Peers~~
  - ~~Previous~~
- - Price
- - Quote
- - Relevant
- - Splits
- - Time Series
- - Volume by Venue
+ - ~~Price~~
+ - ~~ Quote~~
+ - ~~Relevant~~
+ - ~~Splits~~
+ - ~~Time Series~~
+ - ~~Volume by Venue~~
 
 **Reference Data:**
  - Symbols
