@@ -27,6 +27,10 @@ namespace IEX{
     Json::Value largestTrades(std::string symbol);
     Json::Value list(std::string listType);
     Json::Value logo(std::string symbol);
+    Json::Value news(std::string symbol, int last = 0);
+    Json::Value OHLC(std::string symbol);
+    Json::Value peers(std::string symbol);
+    Json::Value previous(std::string symbol);
   }
 }
 

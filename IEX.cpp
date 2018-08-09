@@ -5,8 +5,12 @@ OFFICIAL API: https://iextrading.com/developer/docs/
 Refer to the official docs to understand the return of each function.
 GET examples and JSON examples commented above each function are from the offical API.
 ALL credit for those examples belongs to IEX.
-*/
 
+“Data provided for free by IEX (https://iextrading.com/developer/).
+View IEX’s Terms of Use (https://iextrading.com/api-exhibit-a/).”
+
+*/
+//TODO CHECK ALL SYMBOLS FOR VALID SYMBOL
 #include "IEX.h"
 
 int main(){
@@ -28,6 +32,14 @@ int main(){
   test =  IEX::stocks::largestTrades("aapl");
   test =  IEX::stocks::list("gainers");
   test =  IEX::stocks::logo("aapl");
+  test =  IEX::stocks::news("market", 5);
+  test =  IEX::stocks::news("market");
+  test =  IEX::stocks::news("aapl");
+  test =  IEX::stocks::OHLC("aapl");
+  test =  IEX::stocks::OHLC("market");
+  test =  IEX::stocks::peers("aapl");
+  test =  IEX::stocks::previous("aapl");
+  test =  IEX::stocks::previous("market");
   std:: cout << test << std::endl << "DONE";
   //curl_global_cleanup(); //TODO auto execute somewhere?
 }
@@ -483,6 +495,95 @@ Json::Value IEX::stocks::logo(std::string symbol){
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/logo";
+  IEX::sendGetRequest(jsonData, url);
+  return jsonData;
+}
+
+/*
+GET /stock/{symbol}/news/last/{last}
+
+[
+ {
+   "datetime": "2017-06-29T13:14:22-04:00",
+   "headline": "Voice Search Technology Creates A New Paradigm For Marketers",
+   "source": "Benzinga via QuoteMedia",
+   "url": "https://api.iextrading.com/1.0/stock/aapl/article/8348646549980454",
+   "summary": "<p>Voice search is likely to grow by leap and bounds, with technological advancements leading to better adoption and fueling the growth cycle, according to Lindsay Boyajian, <a href=\"http://loupventures.com/how-the-future-of-voice-search-affects-marketers-today/\">a guest contributor at Loup Ventu...",
+   "related": "AAPL,AMZN,GOOG,GOOGL,MSFT",
+   "image": "https://api.iextrading.com/1.0/stock/aapl/news-image/7594023985414148"
+ }
+]
+EITHER PASS A SYMBOL OR A SYMOL AND A NUMBER FOR LAST X ARTICLES (SEE OFFICAL DOCS)
+OR PASS MARKET AS SYMBOL FOR MARKETWIDE NEWS*/
+Json::Value IEX::stocks::news(std::string symbol, int last){
+  Json::Value jsonData;
+  std::string url(IEX_ENDPOINT);
+  last == 0 ? url += "/stock/"+symbol+"/news" : url += "/stock/"+symbol+"/news/last/"+std::to_string(last);
+  IEX::sendGetRequest(jsonData, url);
+  return jsonData;
+}
+
+/*GET /stock/{symbol}/ohlc
+{
+  "open": {
+    "price": 154,
+    "time": 1506605400394
+  },
+  "close": {
+    "price": 153.28,
+    "time": 1506605400394
+  },
+  "high": 154.80,
+  "low": 153.25
+}
+Can take in a specific symbol OR market as symbol */
+Json::Value IEX::stocks::OHLC(std::string symbol){
+  Json::Value jsonData;
+  std::string url(IEX_ENDPOINT);
+  url += "/stock/"+symbol+"/ohlc";
+  IEX::sendGetRequest(jsonData, url);
+  return jsonData;
+}
+
+/*
+GET /stock/{symbol}/peers
+[
+    "MSFT",
+    "NOK",
+    "IBM",
+    "BBRY",
+    "HPQ",
+    "GOOGL",
+    "XLK"
+] */
+Json::Value IEX::stocks::peers(std::string symbol){
+  Json::Value jsonData;
+  std::string url(IEX_ENDPOINT);
+  url += "/stock/"+symbol+"/peers";
+  IEX::sendGetRequest(jsonData, url);
+  return jsonData;
+}
+
+/*
+GET /stock/{symbol}/previous
+{
+  "symbol": "AAPL",
+  "date": "2017-09-19",
+  "open": 159.51,
+  "high": 159.77,
+  "low": 158.44,
+  "close": 158.73,
+  "volume": 20810632,
+  "unadjustedVolume": 20810632,
+  "change": 0.06,
+  "changePercent": 0.038,
+  "vwap": 158.9944
+}
+Takes symbol or market as symbol */
+Json::Value IEX::stocks::previous(std::string symbol){
+  Json::Value jsonData;
+  std::string url(IEX_ENDPOINT);
+  url += "/stock/"+symbol+"/previous";
   IEX::sendGetRequest(jsonData, url);
   return jsonData;
 }
