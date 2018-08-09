@@ -14,7 +14,6 @@ Jsoncpp: https://github.com/open-source-parsers/jsoncpp
 **_Why use this lib over official API?_**
     **C++ code with the official API:**
     
-    ```
     namespace
     {
         std::size_t callback(
@@ -78,12 +77,11 @@ Jsoncpp: https://github.com/open-source-parsers/jsoncpp
         std::cout << "Successfully parsed JSON data" << std::endl;
         //std::cout << "\nJSON data received:" << std::endl;
     }
-    ```
-    **C++ code with IEX_CPP_API:**
-    
-    ```
+   
+   **C++ code with IEX_CPP_API:**
+   
       IEX::stocks::chart("aapl");
-    ```
+
 
 **NOTE:**
 
