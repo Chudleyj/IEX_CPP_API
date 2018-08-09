@@ -13,67 +13,6 @@ View IEX’s Terms of Use (https://iextrading.com/api-exhibit-a/).”
 //TODO CHECK ALL SYMBOLS FOR VALID SYMBOL
 #include "IEX.h"
 
-int main(){
-//  curl_global_init(CURL_GLOBAL_DEFAULT); //TODO auto execute somewhere?
-  Json::Value test;
-  test = IEX::stocks::batch("aapl");
-  test = IEX::stocks::book("aapl");
-  test = IEX::stocks::chart("aapl");
-  test = IEX::stocks::chartRange("aapl", "1m");
-  test = IEX::stocks::chartDate("aapl", "20180801");
-  test = IEX::stocks::chartDynamic("aapl");
-  test = IEX::stocks::company("aapl");
-  test = IEX::stocks::delayedQuote("aapl");
-  test = IEX::stocks::dividends("aapl", "5y");
-  test = IEX::stocks::earnings("aapl");
-  test = IEX::stocks::effectiveSpread("aapl");
-  test =  IEX::stocks::financials("aapl");
-  test =  IEX::stocks::stats("aapl");
-  test =  IEX::stocks::largestTrades("aapl");
-  test =  IEX::stocks::list("gainers");
-  test =  IEX::stocks::logo("aapl");
-  test =  IEX::stocks::news("market", 5);
-  test =  IEX::stocks::news("market");
-  test =  IEX::stocks::news("aapl");
-  test =  IEX::stocks::OHLC("aapl");
-  test =  IEX::stocks::OHLC("market");
-  test =  IEX::stocks::peers("aapl");
-  test =  IEX::stocks::previous("aapl");
-  test =  IEX::stocks::previous("market");
-  test =  IEX::stocks::price("aapl");
-  test =  IEX::stocks::quote("aapl");
-  test =  IEX::stocks::quote("aapl", true);
-  test =  IEX::stocks::relevant("aapl");
-  test =  IEX::stocks::sectorPerformance();
-  test =  IEX::stocks::relevant("aapl");
-  test =  IEX::stocks::splits("aapl","5y");
-  test =  IEX::stocks::timeSeries("aapl");
-  test =  IEX::stocks::VolumeByVenue("aapl");
-  test = IEX::refData::symbols();
-  test = IEX::refData::corporateActions("20180907");
-  test = IEX::refData::corporateActions();
-  test = IEX::refData::dividends("20180907");
-  test = IEX::refData::dividends();
-  test = IEX::refData::nextDayExDate("20180907");
-  test = IEX::refData::nextDayExDate();
-  test = IEX::refData::symbolDirectory("20180907");
-  test = IEX::refData::symbolDirectory();
-  test = IEX::stats::intraday();
-  test = IEX::stats::recent();
-  test = IEX::stats::records();
-  test = IEX::stats::historical("20180907");
-  test = IEX::stats::historicalDaily("20180907");
-  test = IEX::stats::historicalDaily("5");
-  test = IEX::stats::historicalDaily();
-  test = IEX::markets::market();
-  test = IEX::stocks::crypto();
-  test = IEX::stocks::earningsToday();
-  test = IEX::stocks::upcomingIPOS();
-  test = IEX::stocks::todayIPOS();
-  std:: cout << test << std::endl << "DONE";
-  //curl_global_cleanup(); //TODO auto execute somewhere?
-}
-
 //Callback function used by sendGetRequest to get the result from curl.
 std::size_t callback(const char* in, std::size_t size, std::size_t num, std::string* out){
     const std::size_t totalBytes(size * num);

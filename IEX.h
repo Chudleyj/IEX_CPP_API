@@ -23,11 +23,11 @@ namespace IEX{
     Json::Value delayedQuote(std::string symbol);
     Json::Value dividends(std::string symbol, std::string range);
     Json::Value earnings(std::string symbol);
-    Json::Value earningsToday(std::string symbol);
+    Json::Value earningsToday();
     Json::Value effectiveSpread(std::string symbol);
     Json::Value financials(std::string symbol);
-    Json::Value upcomingIPOS(std::string symbol);
-    Json::Value todayIPOS(std::string symbol);
+    Json::Value upcomingIPOS();
+    Json::Value todayIPOS();
     Json::Value stats(std::string symbol);
     Json::Value largestTrades(std::string symbol);
     Json::Value list(std::string listType);
