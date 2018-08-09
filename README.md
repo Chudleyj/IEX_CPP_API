@@ -12,7 +12,8 @@ Libcurl: https://curl.haxx.se/docs/install.html
 Jsoncpp: https://github.com/open-source-parsers/jsoncpp
 
 **_Why use this lib over official API?_**
-    **C++ code with the official API:**
+
+   **C++ code with the official API:**
     
     namespace
     {
@@ -28,7 +29,7 @@ Jsoncpp: https://github.com/open-source-parsers/jsoncpp
         }
     }
 
-    void acquireJSONofAAPLCHART{
+    void acquireJSONofAAPLchart{
             const std::string url("https://api.iextrading.com/1.0/stock/aapl/chart");
         
         CURL* curl = curl_easy_init();
