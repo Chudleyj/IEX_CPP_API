@@ -5,23 +5,23 @@ OFFICIAL API: https://iextrading.com/developer/docs/
 Refer to the official docs to understand the return of each function.
 GET examples and JSON examples commented above each function are from the offical API.
 ALL credit for those examples belongs to IEX.
-
 “Data provided for free by IEX (https://iextrading.com/developer/).
 View IEX’s Terms of Use (https://iextrading.com/api-exhibit-a/).”
-
 */
 //TODO CHECK ALL SYMBOLS FOR VALID SYMBOL
 #include "IEX.h"
 
 //Callback function used by sendGetRequest to get the result from curl.
-std::size_t callback(const char* in, std::size_t size, std::size_t num, std::string* out){
+std::size_t callback(const char* in, std::size_t size, std::size_t num, std::string* out)
+{
     const std::size_t totalBytes(size * num);
     out->append(in, totalBytes);
     return totalBytes;
 }
 
 //Use LIBCURL to send the GET requests
-void IEX::sendGetRequest(Json::Value &jsonData, const std::string url){
+void IEX::sendGetRequest(Json::Value &jsonData, const std::string url)
+{
   CURL* curl = curl_easy_init();
 
   curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -52,9 +52,16 @@ void IEX::sendGetRequest(Json::Value &jsonData, const std::string url){
     "news": [...],
     "chart": [...]
   },
+<<<<<<< HEAD
+}
+*/
+Json::Value IEX::stocks::batch(const std::string &symbol)
+{
+=======
 } 
 */
 Json::Value IEX::stocks::batch(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url+="/stock/"+symbol+"/batch";
@@ -72,7 +79,12 @@ Json::Value IEX::stocks::batch(const std::string &symbol){
   "systemEvent": {...},
 }
 */
+<<<<<<< HEAD
+Json::Value IEX::stocks::book(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::book(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url+="/stock/"+symbol+"/book";
@@ -83,7 +95,6 @@ Json::Value IEX::stocks::book(const std::string &symbol){
 
 /*GET /stock/{symbol}/chart/{range}
 // .../1d
-
 [
     {
         "date": "20171215"
@@ -110,7 +121,12 @@ Json::Value IEX::stocks::book(const std::string &symbol){
     } // , { ... }
 ]
 */
+<<<<<<< HEAD
+Json::Value IEX::stocks::chart(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::chart(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url+="/stock/"+symbol+"/chart";
@@ -121,7 +137,12 @@ Json::Value IEX::stocks::chart(const std::string &symbol){
 
 //Same as chart function, except it takes a range in.
 //Range must be: 5y, 2y, 1y, ytd, 6m, 3m, 1m, 1d
+<<<<<<< HEAD
+Json::Value IEX::stocks::chartRange(const std::string &symbol, const std::string &range)
+{
+=======
 Json::Value IEX::stocks::chartRange(const std::string symbol, const std::string range){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   if(range == "5y" || range == "2y" || range == "1y" || range == "ytd" || range == "6m" || range == "3m" || range == "1m" || range == "1d"){
     std::string url(IEX_ENDPOINT);
@@ -137,13 +158,22 @@ Json::Value IEX::stocks::chartRange(const std::string symbol, const std::string 
 }
 
 //Specific date entry for chart, YYYYMMDD format, 30 trailing calander days
+<<<<<<< HEAD
+Json::Value IEX::stocks::chartDate(const std::string &symbol, const std::string &date)
+{
+=======
 Json::Value IEX::stocks::chartDate(const std::string &symbol, const std::string &date){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   if(date.size() == 8){
     std::string url(IEX_ENDPOINT);
     url+="/stock/"+symbol+"/chart/date/"+date;
     IEX::sendGetRequest(jsonData, url);
+<<<<<<< HEAD
+
+=======
    
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   }
   else{
     std::cout << std::endl << "Incorrect 'date' input in function chartDate. Exiting." << std::endl;
@@ -154,7 +184,12 @@ Json::Value IEX::stocks::chartDate(const std::string &symbol, const std::string 
 }
 
 //Dynamic chart. See offical API docs.
+<<<<<<< HEAD
+Json::Value IEX::stocks::chartDynamic(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::chartDynamic(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/chart/dynamic";
@@ -176,7 +211,12 @@ GET /stock/{symbol}/company
   "issueType": "cs",
   "sector": "Technology",
 }*/
+<<<<<<< HEAD
+Json::Value IEX::stocks::company(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::company(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/company";
@@ -194,7 +234,12 @@ GET /stock/{symbol}/delayed-quote
   "delayedPriceTime": 1498762739791,
   "processedTime": 1498763640156
 }*/
+<<<<<<< HEAD
+Json::Value IEX::stocks::delayedQuote(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::delayedQuote(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/delayed-quote";
@@ -217,7 +262,12 @@ GET /stock/{symbol}/dividends/{range}
     } // , { ... }
 ]
 REQUIRES a range: 5y,2y,1y,ytd,6m,3m,1m */
+<<<<<<< HEAD
+Json::Value IEX::stocks::dividends(const std::string &symbol, const std::string &range)
+{
+=======
 Json::Value IEX::stocks::dividends(const std::string &symbol, const std::string &range){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   if(range == "5y" || range == "2y" || range == "1y" || range == "ytd" || range == "6m" || range == "3m" || range == "1m"){
     std::string url(IEX_ENDPOINT);
@@ -268,7 +318,12 @@ Json::Value IEX::stocks::dividends(const std::string &symbol, const std::string 
     },
   ]
 }*/
+<<<<<<< HEAD
+Json::Value IEX::stocks::earnings(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::earnings(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/earnings";
@@ -304,7 +359,12 @@ Json::Value IEX::stocks::earnings(const std::string &symbol){
     "priceImprovement": 0.003949427
   }
 ]*/
+<<<<<<< HEAD
+Json::Value IEX::stocks::effectiveSpread(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::effectiveSpread(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/effective-spread";
@@ -315,7 +375,6 @@ Json::Value IEX::stocks::effectiveSpread(const std::string &symbol){
 
 /*GET /stock/{symbol}/financials
 The above example will return JSON with the following keys
-
 {
   "symbol": "AAPL",
   "financials": [
@@ -343,7 +402,12 @@ The above example will return JSON with the following keys
     } // , { ... }
   ]
 }*/
+<<<<<<< HEAD
+Json::Value IEX::stocks::financials(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::financials(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/financials";
@@ -404,7 +468,12 @@ Json::Value IEX::stocks::financials(const std::string &symbol){
   "month1ChangePercent": 0.009668596145283263,
   "day5ChangePercent": -0.005762605699968781
 }*/
+<<<<<<< HEAD
+Json::Value IEX::stocks::stats(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::stats(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/stats";
@@ -425,7 +494,12 @@ Json::Value IEX::stocks::stats(const std::string &symbol){
   },
   ...
 ] */
+<<<<<<< HEAD
+Json::Value IEX::stocks::largestTrades(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::largestTrades(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/largest-trades";
@@ -470,7 +544,12 @@ Json::Value IEX::stocks::largestTrades(const std::string &symbol){
   } // , { ... }
 ]
 LISTTYPE REQUIRED: mostactive, gainers, losers, iexvolume, or iexmarketpercent*/
+<<<<<<< HEAD
+Json::Value IEX::stocks::list(const std::string &listType)
+{
+=======
 Json::Value IEX::stocks::list(const std::string &listType){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   if(listType == "mostactive" || listType == "gainers" || listType == "losers" || listType == "iexvolume" || listType == "iexmarketpercent"){
     std::string url(IEX_ENDPOINT);
@@ -490,7 +569,12 @@ GET /stock/{symbol}/logo
 {
   "url": "https://storage.googleapis.com/iex/api/logos/AAPL.png"
 }*/
+<<<<<<< HEAD
+Json::Value IEX::stocks::logo(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::logo(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/logo";
@@ -501,7 +585,6 @@ Json::Value IEX::stocks::logo(const std::string &symbol){
 
 /*
 GET /stock/{symbol}/news/last/{last}
-
 [
  {
    "datetime": "2017-06-29T13:14:22-04:00",
@@ -515,7 +598,12 @@ GET /stock/{symbol}/news/last/{last}
 ]
 EITHER PASS A SYMBOL OR A SYMOL AND A NUMBER FOR LAST X ARTICLES (SEE OFFICAL DOCS)
 OR PASS MARKET AS SYMBOL FOR MARKETWIDE NEWS*/
+<<<<<<< HEAD
+Json::Value IEX::stocks::news(const std::string &symbol, int last)
+{
+=======
 Json::Value IEX::stocks::news(const std::string &symbol, int last){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   last == 0 ? url += "/stock/"+symbol+"/news" : url += "/stock/"+symbol+"/news/last/"+std::to_string(last);
@@ -538,7 +626,12 @@ Json::Value IEX::stocks::news(const std::string &symbol, int last){
   "low": 153.25
 }
 Can take in a specific symbol OR market as symbol */
+<<<<<<< HEAD
+Json::Value IEX::stocks::OHLC(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::OHLC(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/ohlc";
@@ -558,7 +651,12 @@ GET /stock/{symbol}/peers
     "GOOGL",
     "XLK"
 ] */
+<<<<<<< HEAD
+Json::Value IEX::stocks::peers(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::peers(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/peers";
@@ -583,7 +681,12 @@ GET /stock/{symbol}/previous
   "vwap": 158.9944
 }
 Takes symbol or market as symbol */
+<<<<<<< HEAD
+Json::Value IEX::stocks::previous(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::previous(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/previous";
@@ -593,7 +696,12 @@ Json::Value IEX::stocks::previous(const std::string &symbol){
 }
 
 // GET /stock/{symbol}/price
+<<<<<<< HEAD
+Json::Value IEX::stocks::price(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::price(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/price";
@@ -647,7 +755,12 @@ GET /stock/{symbol}/quote
   "ytdChange": 0.3665,
 }
 OPTIONAL VALUE TO DISPLAY PERCENT, SEE OFFICAL API */
+<<<<<<< HEAD
+Json::Value IEX::stocks::quote(const std::string &symbol, bool displayPercent)
+{
+=======
 Json::Value IEX::stocks::quote(const std::string &symbol, bool displayPercent){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   displayPercent ? url += "/stock/"+symbol+"/quote?displayPercent=true" : url += "/stock/"+symbol+"/quote";
@@ -670,7 +783,12 @@ GET /stock/{symbol}/relevant
       "XLK"
   ]
 }*/
+<<<<<<< HEAD
+Json::Value IEX::stocks::relevant(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::relevant(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/relevant";
@@ -690,7 +808,8 @@ GET /stock/market/sector-performance
   },
   ...
 ]*/
-Json::Value IEX::stocks::sectorPerformance(){
+Json::Value IEX::stocks::sectorPerformance()
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/market/sector-performance";
@@ -712,7 +831,12 @@ GET /stock/{symbol}/splits/{range}
         "forFactor": 1
     } // , { ... }
 ]*/
+<<<<<<< HEAD
+Json::Value IEX::stocks::splits(const std::string &symbol, const std::string &range)
+{
+=======
 Json::Value IEX::stocks::splits(const std::string &symbol, const std::string &range){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
 
@@ -731,7 +855,12 @@ Json::Value IEX::stocks::splits(const std::string &symbol, const std::string &ra
 }
 
 //GET /stock/{symbol}/time-series
+<<<<<<< HEAD
+Json::Value IEX::stocks::timeSeries(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::timeSeries(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/time-series";
@@ -848,7 +977,12 @@ GET /stock/{symbol}/delayed-quote
     "avgMarketPercent": 0.40847022134435956
   }
 ]*/
+<<<<<<< HEAD
+Json::Value IEX::stocks::VolumeByVenue(const std::string &symbol)
+{
+=======
 Json::Value IEX::stocks::VolumeByVenue(const std::string &symbol){
+>>>>>>> 950a123b440bc09c242b340cf51c83dc023c9dd5
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/"+symbol+"/volume-by-venue";
@@ -897,7 +1031,8 @@ GET /ref-data/daily-list/symbol-directory
   },
   {...}
 ]*/
-Json::Value IEX::refData::symbols(){
+Json::Value IEX::refData::symbols()
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/ref-data/symbols";
@@ -946,7 +1081,8 @@ GET /ref-data/daily-list/symbol-directory
   },
   {...}
 ]*/
-Json::Value IEX::refData::corporateActions(std::string date){
+Json::Value IEX::refData::corporateActions(std::string date)
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
 
@@ -1004,7 +1140,8 @@ GET /ref-data/daily-list/dividends
   },
   {...}
 ]*/
-Json::Value IEX::refData::dividends(std::string date){
+Json::Value IEX::refData::dividends(std::string date)
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   if(!date.empty()){
@@ -1057,7 +1194,8 @@ GET /ref-data/daily-list/next-day-ex-date
   },
   {...}
 ]*/
-Json::Value IEX::refData::nextDayExDate(std::string date){
+Json::Value IEX::refData::nextDayExDate(std::string date)
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   if(!date.empty()){
@@ -1113,7 +1251,8 @@ GET /ref-data/daily-list/symbol-directory
   },
   {...}
 ]*/
-Json::Value IEX::refData::symbolDirectory(std::string date){
+Json::Value IEX::refData::symbolDirectory(std::string date)
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   if(!date.empty()){
@@ -1159,7 +1298,8 @@ GET /stats/intraday
     "lastUpdated": 1480433817336
   }
 }*/
-Json::Value IEX::stats::intraday(){
+Json::Value IEX::stats::intraday()
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stats/intraday";
@@ -1228,7 +1368,8 @@ GET /stats/recent
     "litVolume": 34150804
   }
 ]*/
-Json::Value IEX::stats::recent(){
+Json::Value IEX::stats::recent()
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stats/recent";
@@ -1265,7 +1406,8 @@ GET /stats/records
     "avg30Value": 5771412969.2662
   }
 }*/
-Json::Value IEX::stats::records(){
+Json::Value IEX::stats::records()
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stats/records";
@@ -1330,7 +1472,8 @@ GET /stats/historical?date=201605
     "venueXPHLFirstWaveRate": 0.93629
   }
 ]*/
-Json::Value IEX::stats::historical(std::string date){
+Json::Value IEX::stats::historical(std::string date)
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   if(!date.empty()){
@@ -1397,7 +1540,8 @@ GET /stats/historical/daily?last=5
   }
 ]
 EITHER TAKES JUST A SYMBOL, OR SYMBOL AND DATE, OR SYMBOL AND LAST X (UP TO 90)*/
-Json::Value IEX::stats::historicalDaily(std::string date){
+Json::Value IEX::stats::historicalDaily(std::string date)
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   std::locale loc; //For isdigit
@@ -1582,7 +1726,8 @@ GET /market
     "lastUpdated": 1480433816141
   }
 ]*/
-Json::Value IEX::markets::market(){
+Json::Value IEX::markets::market()
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/market";
@@ -1592,7 +1737,8 @@ Json::Value IEX::markets::market(){
 }
 
 //GET /stock/market/crypto
-Json::Value IEX::stocks::crypto(){
+Json::Value IEX::stocks::crypto()
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/market/crypto";
@@ -1651,7 +1797,8 @@ GET /stock/market/today-earnings
     ...
   ]
 }*/
-Json::Value IEX::stocks::earningsToday(){
+Json::Value IEX::stocks::earningsToday()
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/market/today-earnings";
@@ -1663,7 +1810,6 @@ Json::Value IEX::stocks::earningsToday(){
 /*
 GET /stock/market/upcoming-ipos
 The above example will return JSON with the following keys
-
 {
     "rawData": [
         {
@@ -1734,7 +1880,8 @@ The above example will return JSON with the following keys
         ...
     ]
 }*/
-Json::Value IEX::stocks::upcomingIPOS(){
+Json::Value IEX::stocks::upcomingIPOS()
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/market/upcoming-ipos";
@@ -1747,7 +1894,6 @@ Json::Value IEX::stocks::upcomingIPOS(){
 /*
 GET /stock/market/today-ipos
 The above example will return JSON with the following keys
-
 {
     "rawData": [
         {
@@ -1818,7 +1964,8 @@ The above example will return JSON with the following keys
         ...
     ]
 }*/
-Json::Value IEX::stocks::todayIPOS(){
+Json::Value IEX::stocks::todayIPOS()
+{
   Json::Value jsonData;
   std::string url(IEX_ENDPOINT);
   url += "/stock/market/today-ipos";
