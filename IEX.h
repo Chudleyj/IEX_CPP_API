@@ -7,11 +7,17 @@
 #include <string>
 #include <cassert>
 #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <boost/algorithm/string.hpp>
 
 #define IEX_ENDPOINT "https://api.iextrading.com/1.0"
 
 namespace IEX {
     void sendGetRequest(Json::Value &data, const std::string url);
+    bool isValidSymbol(const std::string &);
+    std::vector<std::string> getSymbolList();
+    void parseSymbolData(const Json::Value &, std::vector<std::string> &);
     namespace stocks {
         Json::Value batch(const std::string &);
         Json::Value book(const std::string &);

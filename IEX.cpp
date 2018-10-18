@@ -11,6 +11,40 @@
 //TODO CHECK ALL SYMBOLS FOR VALID SYMBOL
 #include "IEX.h"
 
+void IEX::parseSymbolData(const Json::Value &IEXdata, std::vector<std::string> &symbolVec)
+{
+    int i = 0;
+    
+    //Step through JSON file until the end is reached
+    while(i < IEXdata.size()) {
+        symbolVec.push_back(IEXdata[i]["symbol"].asString());
+        i++;
+    }
+}
+
+std::vector<std::string> IEX::getSymbolList()
+{
+    Json::Value jsonData;
+    std::string url(IEX_ENDPOINT);
+    std::vector<std::string> symbolList;
+    url += "/ref-data/symbols";
+    IEX::sendGetRequest(jsonData, url);
+    assert(jsonData.isArray()); //Crash if not an array
+    parseSymbolData(jsonData, symbolList);
+    return symbolList;
+    
+}
+
+bool IEX::isValidSymbol(const std::string &symbol)
+{
+    std::vector<std::string> symbolList = getSymbolList();
+    std::string symbolCopy = symbol;
+    boost::to_upper(symbolCopy);
+    if (std::find(symbolList.begin(), symbolList.end(), symbolCopy) != symbolList.end())
+        return true;
+    
+    return false;
+}
 //Callback function used by sendGetRequest to get the result from curl.
 std::size_t callback(const char* in, std::size_t size, std::size_t num, std::string* out)
 {
@@ -57,6 +91,12 @@ void IEX::sendGetRequest(Json::Value &jsonData, const std::string url)
 Json::Value IEX::stocks::batch(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url+="/stock/"+symbol+"/batch";
     IEX::sendGetRequest(jsonData, url);
@@ -76,6 +116,12 @@ Json::Value IEX::stocks::batch(const std::string &symbol)
 Json::Value IEX::stocks::book(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url+="/stock/"+symbol+"/book";
     IEX::sendGetRequest(jsonData, url);
@@ -114,6 +160,12 @@ Json::Value IEX::stocks::book(const std::string &symbol)
 Json::Value IEX::stocks::chart(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url+="/stock/"+symbol+"/chart";
     IEX::sendGetRequest(jsonData, url);
@@ -126,6 +178,12 @@ Json::Value IEX::stocks::chart(const std::string &symbol)
 Json::Value IEX::stocks::chartRange(const std::string &symbol, const std::string &range)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     if(range == "5y" || range == "2y" || range == "1y" || range == "ytd" || range == "6m" || range == "3m" || range == "1m" || range == "1d") {
         std::string url(IEX_ENDPOINT);
         url+="/stock/"+symbol+"/chart/"+range;
@@ -143,6 +201,12 @@ Json::Value IEX::stocks::chartRange(const std::string &symbol, const std::string
 Json::Value IEX::stocks::chartDate(const std::string &symbol, const std::string &date)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     if(date.size() == 8) {
         std::string url(IEX_ENDPOINT);
         url+="/stock/"+symbol+"/chart/date/"+date;
@@ -161,6 +225,12 @@ Json::Value IEX::stocks::chartDate(const std::string &symbol, const std::string 
 Json::Value IEX::stocks::chartDynamic(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/chart/dynamic";
     IEX::sendGetRequest(jsonData, url);
@@ -184,6 +254,12 @@ Json::Value IEX::stocks::chartDynamic(const std::string &symbol)
 Json::Value IEX::stocks::company(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/company";
     IEX::sendGetRequest(jsonData, url);
@@ -203,6 +279,12 @@ Json::Value IEX::stocks::company(const std::string &symbol)
 Json::Value IEX::stocks::delayedQuote(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/delayed-quote";
     IEX::sendGetRequest(jsonData, url);
@@ -227,6 +309,12 @@ Json::Value IEX::stocks::delayedQuote(const std::string &symbol)
 Json::Value IEX::stocks::dividends(const std::string &symbol, const std::string &range)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     if(range == "5y" || range == "2y" || range == "1y" || range == "ytd" || range == "6m" || range == "3m" || range == "1m") {
         std::string url(IEX_ENDPOINT);
         url+="/stock/"+symbol+"/dividends/"+range;
@@ -279,6 +367,12 @@ Json::Value IEX::stocks::dividends(const std::string &symbol, const std::string 
 Json::Value IEX::stocks::earnings(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/earnings";
     IEX::sendGetRequest(jsonData, url);
@@ -316,6 +410,12 @@ Json::Value IEX::stocks::earnings(const std::string &symbol)
 Json::Value IEX::stocks::effectiveSpread(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/effective-spread";
     IEX::sendGetRequest(jsonData, url);
@@ -355,6 +455,12 @@ Json::Value IEX::stocks::effectiveSpread(const std::string &symbol)
 Json::Value IEX::stocks::financials(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/financials";
     IEX::sendGetRequest(jsonData, url);
@@ -417,6 +523,12 @@ Json::Value IEX::stocks::financials(const std::string &symbol)
 Json::Value IEX::stocks::stats(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/stats";
     IEX::sendGetRequest(jsonData, url);
@@ -439,6 +551,12 @@ Json::Value IEX::stocks::stats(const std::string &symbol)
 Json::Value IEX::stocks::largestTrades(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/largest-trades";
     IEX::sendGetRequest(jsonData, url);
@@ -491,8 +609,8 @@ Json::Value IEX::stocks::list(const std::string &listType)
         IEX::sendGetRequest(jsonData, url);
     }
     else{
-        std::cout << std::endl << "Incorrect 'listType' input in function list. Exiting." << std::endl;
-        exit(1);
+        std::cout << std::endl << "Incorrect 'listType' input in function list(). I am returning an uninitialized JSON object!" << std::endl;
+        return jsonData;
     }
     assert(jsonData.isArray()); //Crash if not an array
     return jsonData;
@@ -506,6 +624,12 @@ Json::Value IEX::stocks::list(const std::string &listType)
 Json::Value IEX::stocks::logo(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/logo";
     IEX::sendGetRequest(jsonData, url);
@@ -531,6 +655,12 @@ Json::Value IEX::stocks::logo(const std::string &symbol)
 Json::Value IEX::stocks::news(const std::string &symbol, int last)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     last == 0 ? url += "/stock/"+symbol+"/news" : url += "/stock/"+symbol+"/news/last/"+std::to_string(last);
     IEX::sendGetRequest(jsonData, url);
@@ -555,6 +685,12 @@ Json::Value IEX::stocks::news(const std::string &symbol, int last)
 Json::Value IEX::stocks::OHLC(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/ohlc";
     IEX::sendGetRequest(jsonData, url);
@@ -576,6 +712,12 @@ Json::Value IEX::stocks::OHLC(const std::string &symbol)
 Json::Value IEX::stocks::peers(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/peers";
     IEX::sendGetRequest(jsonData, url);
@@ -602,6 +744,12 @@ Json::Value IEX::stocks::peers(const std::string &symbol)
 Json::Value IEX::stocks::previous(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/previous";
     IEX::sendGetRequest(jsonData, url);
@@ -613,6 +761,12 @@ Json::Value IEX::stocks::previous(const std::string &symbol)
 Json::Value IEX::stocks::price(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/price";
     IEX::sendGetRequest(jsonData, url);
@@ -668,6 +822,12 @@ Json::Value IEX::stocks::price(const std::string &symbol)
 Json::Value IEX::stocks::quote(const std::string &symbol, bool displayPercent)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     displayPercent ? url += "/stock/"+symbol+"/quote?displayPercent=true" : url += "/stock/"+symbol+"/quote";
     IEX::sendGetRequest(jsonData, url);
@@ -692,6 +852,12 @@ Json::Value IEX::stocks::quote(const std::string &symbol, bool displayPercent)
 Json::Value IEX::stocks::relevant(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/relevant";
     IEX::sendGetRequest(jsonData, url);
@@ -736,6 +902,12 @@ Json::Value IEX::stocks::sectorPerformance()
 Json::Value IEX::stocks::splits(const std::string &symbol, const std::string &range)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     
     if(range == "5y" || range == "2y" || range == "1y" || range == "ytd" || range == "6m" || range == "3m" || range == "1m" || range == "1d") {
@@ -756,6 +928,12 @@ Json::Value IEX::stocks::splits(const std::string &symbol, const std::string &ra
 Json::Value IEX::stocks::timeSeries(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/time-series";
     IEX::sendGetRequest(jsonData, url);
@@ -874,6 +1052,12 @@ Json::Value IEX::stocks::timeSeries(const std::string &symbol)
 Json::Value IEX::stocks::VolumeByVenue(const std::string &symbol)
 {
     Json::Value jsonData;
+    
+    if(!isValidSymbol(symbol)){
+        std::cout << "Invalid Symbol! I am returning an uninitialized JSON object!";
+        return jsonData;
+    }
+    
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/volume-by-venue";
     IEX::sendGetRequest(jsonData, url);
