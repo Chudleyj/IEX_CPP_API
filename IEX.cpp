@@ -770,7 +770,7 @@ Json::Value IEX::stocks::price(const std::string &symbol)
     std::string url(IEX_ENDPOINT);
     url += "/stock/"+symbol+"/price";
     IEX::sendGetRequest(jsonData, url);
-    assert(jsonData.isArray()); //Crash if not an array
+    assert(jsonData.isNumeric()); //Crash if not numeric
     return jsonData;
 }
 
