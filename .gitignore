@@ -1,0 +1,22 @@
+####
+#C++
+
+# dev environment
+.clang_complete
+tags
+*.swp
+# build files
+build
+
+#install
+lib
+bin
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
